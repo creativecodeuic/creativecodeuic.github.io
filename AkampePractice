@@ -1,0 +1,140 @@
+var word1;  //4 Strings to store the words that will be filled in
+var word2;
+var word3;
+var word4;
+var word5;
+var word6;
+var word7;
+var word8;
+var word9;
+var word10;
+var word11;
+var poem;  //String to store the complete poem
+var settingRhymes = false;  //boolean for when the 3rd and 4th httpget requests
+var bird; //var to store bird image
+
+function preload() {
+  //Load in heart
+  bird = loadImage('little-bird.jpg');
+  
+}
+
+function setup() {
+  createCanvas(500, 500);
+  background(0);
+  textAlign(CENTER);
+  textSize(24);
+}
+
+function draw() {
+   if (!settingRhymes) {
+    setRhymes();
+  } else if (!poem&&word1&&word2&&word3&&word4&&word5&&word6&&word7&&word8&&word9&&word10&&word11&&bird) {  //If everything is set except the poem
+      poem = "I woke early one ";  //Add each line of the poem with the 4 words filled in
+      poem+= word1;
+      poem+= ",\nThe earth lay cool and still.";
+      poem+= "\nWhen suddenly a tiny ";
+      poem+= word2;
+      poem+= "\nPerched on my window sill,";
+      poem+= "\nHe sang a song so ";
+      poem+= word3;
+      poem+= "\nSo carefree and so gay,";
+      poem+= "\nThat slowly all my ";
+      poem+= word4;
+      poem+= "\nBegan to slip ";
+      poem+= word5;
+      poem+= ".\nHe sang of far off ";
+      poem+= word6;
+      poem+= "\nof laughter and of fun, ";
+      poem+= "\nIt seemed his very trilling,";
+      poem+= "\nbrought up the morning ";
+      poem+= word7;
+      poem+= ".\nI stirred beneath the ";
+      poem+= word8;
+      poem+= "\nCrept slowly out of ";
+      poem+= word9;
+      poem+= ",\nThen gently shut the window";
+      poem+= "\nAnd ";
+      poem+= word10;
+      poem+= ".\n his little head ";
+      poem+= ",\I'm not a ";
+      poem+= word1 + " ";
+      poem+= word11;
+      poem+=".";
+    image(bird, 0, 0, width, height);  //Display the heart
+    fill(227,240,174);  //Set the text color
+    text(poem, width*0.125, height/3, width*0.75, height/2);  //Display the poem
+    print(poem);
+  }
+}
+
+function mousePressed() {
+  if (mouseButton==LEFT)
+    location.reload();  //If the left mouse button is pressed, refresh the page
+  if (mouseButton==RIGHT)
+    saveCanvas('CompyLove'+frameCount+'.jpg');  //If the right mouse button is pressed, save the canvas
+}
+
+function setRhymes() {
+  settingRhymes = true;
+  url = "https://api.datamuse.com/words?rel_trg=early&topics=time"; 
+//Url to get replacement words
+  httpGet(url, 'json', false, function(response) {
+    word1 = response[0].word;  //Store the 
+  }
+  );
+  url = "https://api.datamuse.com/words?rel_jja=small&topics=animal";  //Url to get word that rhymes with word2
+  httpGet(url, 'json', false, function(response) {
+    word2 = response[0].word;  //Store the 
+  }
+  );
+  url = "https://api.datamuse.com/words?rel_jjb=music&rel_rhy=lovely"; 
+//Url to get replacement words
+  httpGet(url, 'json', false, function(response) {
+    word3 = response[0].word;  //Store the rhymed word in word3
+  }
+  );
+  url = "https://api.datamuse.com/words?rel_jjb=trouble&topics=feelings";  //Url to get word that rhymes with word2
+  httpGet(url, 'json', false, function(response) {
+    word4 = response[0].word;  //Store the rhymed word in word4
+  }
+  );
+  url = "https://api.datamuse.com/words?rel_rhy=gay"; 
+//Url to get replacement words
+  httpGet(url, 'json', false, function(response) {
+    word5 = response[0].word;  //Store the rhymed word in word3
+  }
+  );
+  url = "https://api.datamuse.com/words?ml=places";  //Url to get word that rhymes with word2
+  httpGet(url, 'json', false, function(response) {
+    word6 = response[0].word;  //Store the rhymed word in word4
+  }
+  );
+  url = "https://api.datamuse.com/words?ml=sun&rel_rhy=fun"; 
+//Url to get replacement words
+  httpGet(url, 'json', false, function(response) {
+    word7 = response[0].word;  //Store the rhymed word in word3
+  }
+  );
+  url = "https://api.datamuse.com/words?lc=beneath&ml=place";  //Url to get word that rhymes with word2
+  httpGet(url, 'json', false, function(response) {
+    word8 = response[0].word;  //Store the rhymed word in word4
+  }
+  );
+  url = "https://api.datamuse.com/words?ml= word8&topics=bedroom&rel_trg=location&lc=crept"; 
+  httpGet(url, 'json', false, function(response) {
+    word9 = response[0].word;  //Store the rhymed word in word3
+  }
+  );
+  url = "https://api.datamuse.com/words?lc=and&topics=motherly+actions";  //Url to get word that rhymes with word2
+  httpGet(url, 'json', false, function(response) {
+    word10 = response[0].word;  //Store the rhymed word in word4
+  }
+  );
+  url = "https://api.datamuse.com/words?ml=person"; 
+//Url to get replacement words
+  httpGet(url, 'json', false, function(response) {
+    word11 = response[0].word;  //Store the rhymed word in word3
+  }
+  );
+}
