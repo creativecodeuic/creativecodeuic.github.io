@@ -10,7 +10,7 @@ function preload() {
   //Load in heart
   heart = loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Love_Heart_SVG.svg/645px-Love_Heart_SVG.svg.png');
   //Url for random word
-  var url = "http://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=false&includePartOfSpeech=adjective&minCorpusCount=25000&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+  var url = "https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=false&includePartOfSpeech=adjective&minCorpusCount=25000&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
   httpGet(url, 'json', false, function(response) {
     word1 = response.word;  //Store first random word in word1
   }
@@ -58,12 +58,12 @@ function mousePressed() {
 
 function setRhymes() {
   settingRhymes = true;
-  url = "http://rhymebrain.com/talk?function=getRhymes&word="+word1;  //Url to get word that rhymes with word1
+  url = "https://api.datamuse.com/words?rel_rhy="+word1;  //Url to get word that rhymes with word1
   httpGet(url, 'json', false, function(response) {
     word3 = response[0].word;  //Store the rhymed word in word3
   }
   );
-  url = "http://rhymebrain.com/talk?function=getRhymes&word="+word2;  //Url to get word that rhymes with word2
+  url = "https://api.datamuse.com/words?rel_rhy="+word2;  //Url to get word that rhymes with word2
   httpGet(url, 'json', false, function(response) {
     word4 = response[0].word;  //Store the rhymed word in word4
   }
