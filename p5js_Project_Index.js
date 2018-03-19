@@ -35,7 +35,7 @@ function draw() {
       fill(127);
     }
     var name = fileNames[i].substring(0, fileNames[i].length-5);
-    createElement('p','<a href='+fileNames[i]+'/">'+name+'</a>');
+    createElement('p','<a href='+fileNames[i]+'>'+name+'</a>');
     text(name, width/50, baseline);
   }
   noLoop();
