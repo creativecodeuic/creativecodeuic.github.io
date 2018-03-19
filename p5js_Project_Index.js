@@ -15,35 +15,15 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(displayWidth, displayHeight);
-  background(255);
-  density = displayDensity();
-  textAlign(LEFT, TOP);
 }
 
 function draw() {
   if (fileNames.length==0)
     return;
-  background(255);
-  fill(0);
-  textSize(24*density);
-  text("Creative Code - Project 4 - Internet Data", width/50, height/25+24*density);
-  textSize(18*density);
   for (var i = 0; i < fileNames.length; i++) {
-    var baseline = height/25+24*density+(i+1)*28*density;
-    if (mouseY > baseline && mouseY < baseline+18*density) {
-      fill(127);
-    }
     var name = fileNames[i].substring(0, fileNames[i].length-5);
     createElement('p','<a href='+fileNames[i]+'>'+name+'</a>');
     text(name, width/50, baseline);
   }
   noLoop();
-}
-function mousePressed() {
-  for (var i = 0; i < fileNames.length; i++) {
-    var baseline = height/25+24*density+(i+1)*28*density;
-    if (mouseY > baseline && mouseY < baseline+18*density)
-      window.location.href = fileNames[i];
-  }
 }
