@@ -3,7 +3,7 @@ var word2;
 var word3;
 var word4;
 var poem;
-var async = false;
+var settingRhymes = false;
 var heart;
 
 function preload() {
@@ -27,22 +27,8 @@ function setup() {
 }
 
 function draw() {
-  if (!word2)
-    return;
-  else if (!word4) {
-    if (word1&&word2&&!async) {
-      async = true;
-      url = "http://rhymebrain.com/talk?function=getRhymes&word="+word1;
-      httpGet(url, 'json', false, function(response) {
-        word3 = response[int(random(response.length/10))].word;
-      }
-      );
-      url = "http://rhymebrain.com/talk?function=getRhymes&word="+word2;
-      httpGet(url, 'json', false, function(response) {
-        word4 = response[int(random(response.length/10))].word;
-      }
-      );
-    }
+  if (word1 && word2 && !settingRhymes) {
+    setRhymes();
   } else if (!poem&&word3&&word4&&heart) {
     poem = "Roses are ";
     poem+= word1;
@@ -65,4 +51,18 @@ function mousePressed() {
     location.reload();
   if (mouseButton==RIGHT)
     saveCanvas('CompyLove'+frameCount+'.jpg');
+}
+
+function setRhymes() {
+  settingRhymes = true;
+  url = "http://rhymebrain.com/talk?function=getRhymes&word="+word1;
+  httpGet(url, 'json', false, function(response) {
+    word3 = response[0].word;
+  }
+  );
+  url = "http://rhymebrain.com/talk?function=getRhymes&word="+word2;
+  httpGet(url, 'json', false, function(response) {
+    word4 = response[0].word;
+  }
+  );
 }
