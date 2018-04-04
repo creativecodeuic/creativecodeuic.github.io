@@ -232,8 +232,8 @@ function randomView(){
 // Get what makes your room horrible.
 function getRoom(){
   switch(Math.floor(Math.random() * 5)){
-    case 0: return "stuffy, musty smell of the old clothes and unwashed linen that has gradually accumulated in the corners of your room and on your bed"; break;
-    case 1: return "stuffy, musty smell of the old clothes and unwashed linen that has gradually accumulated in the corners of your room and on your bed"; break;
+    case 0: return "stuffy, musty smell of the old clothes and unwashed linens that has gradually accumulated in the corners of your room and on your bed"; break;
+    case 1: return "stuffy, musty smell of the old clothes and unwashed linens that has gradually accumulated in the corners of your room and on your bed"; break;
     case 2: return "blank white walls and deeply stained, ancient hardwood floors you walk on. You have memorized the floor's patterns, seen rainbow static coalesce into shapes on the walls. Thinking about this freaks you out"; break;
     case 3: return "obviously false but still compelling notion that your room is a quarantine and not you but your anxiety lives here, undisturbed, free to linger and fester when you refuse to leave for days on end"; break;
     case 4: return "constant reminders of bills and upkeep and self-care and every other responsibility that you shirk when you stay inside for multiple days on end. Getting outside helps remind you that everyone has these issues as well, and that your daily struggles are valid"; break;
