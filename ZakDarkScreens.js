@@ -5,7 +5,7 @@ var textCursor, currentSentence, content, input = false, choice = 0, weather = {
 var sentences = {
   0:{msg:"It's {{TIME}}. You haven't been outside in almost two days.%\
   You glance at your weather report: {{WEAT}}ºF.%\
-  Pretty much anything beats the stuffy, musty smell of the old clothes and unwashed linen that has gradually accumulated in the corners of your room and on your bed.%\
+  Pretty much anything beats the {{ROOM}}.%\
   You might lose your mind if you don't get some fresh air.\
   Maybe it's time to get out for a bit.%> Leave your apartment? [y,n]: ",/*TODO: conditional description */ opt:{yes:1, no:2}},
   1:{msg:"You take a long look outside your window, gazing at "+randomView()+".%\
@@ -33,26 +33,51 @@ var sentences = {
   5:{msg:"You put on pants, sniff under your arms to see what you're working with. \
   You consider reapplying a little extra deodorant.%\
   It's gotten pretty bad but you're not really trying to impress anyone.%...%\
-  > Okay, maybe you really should shower. [...]",opt:{yes:null,no:null,cont:6}},
+  > Take a shower? [y,n]: ",opt:{yes:6,no:7}},
   6:{msg:"It takes you a little longer than normal and you feel guilty about wasting water but hey, you're worth it.%\
-  It's nice to be clean and presentable and ready for the public eye.%\
-  You've got your keys, wallet and phone{{COAT}}. Time for a bite and maybe a drink or two.%\
-  > You're at the front door, ready to leave your apartment. [...]: ", opt:{cont:7}},
-  7:{msg:"> You hesitate as your hand grips the doorknob. Turn it? [y,n]: ",opt:{yes:10,no:8}},
-  8:{msg:"You continue to hesitate as your hand grips the doorknob, totally frozen.%\
+  It's nice to be clean and presentable and ready for the public eye.%> Grab your stuff. [...]",opt:{cont:8}},
+  7:{msg:"You are appalled at how little you give a shit about being a productive member of society.%\
+  You justify your motion to forgo a shower by claiming that one less day you shower is several tens of gallons of water saved.%\
+  > Finish patting yourself on the back and get ready. [...]",opt:{cont:8}},
+  8:{msg:"You've got your keys and wallet{{COAT}}. Time for a bite and maybe a drink or two.%\
+  You're at the front door, ready to leave your apartment.%\
+  > Time to go [...]", opt:{cont:9}},
+  9:{msg:"> You hesitate as your hand grips the doorknob. Turn it? [y,n]: ",opt:{yes:12,no:10}},
+  10:{msg:"You continue to hesitate as your hand grips the doorknob, totally frozen.%\
   Somewhere in your mind, a tiny voice shrieks out, agonizing over the thought of being in public. You don't want this. But, you probably need it.%\
-  There's no food in your fridge and you'd judge yourself harshly for takeout. Go outside.%\
-  > Turn the doorknob? [y,n]: ",opt:{yes:10,no:9}},
-  9:{msg:"You continue to agonize about turning the fucking doorknob.%\
-  > Turn it? [y,n]: ",opt:{yes:10,no:9}},                             // TODO: make dependent on weather
-  10:{msg:"%...%...%...%...%Finally, you've made it outside, and the {{AIRQ}}.%\
-  There's a good pub within walking distance, and you figure the noise and commotion will be comforting.\
-  They're won't necessarily be talking to you, and you won't have to say much to them. A symbiosis wherein the sounds made by people\
-  will serve as a kind of solace. Or, maybe, you'll have a panic attack and not know what to say to the bartender and everything will come crashing down—%%%\
-  You just need to focus on getting there without interacting with pedestrians.%\
-  > One foot at a time. [...]",opt:{cont:true}},
-  11:{msg:"Yes, just like that. Breathe normally. Keep your heart rate down.% > Relax. [...]",opt:{cont:true}},
-  12:{msg:"You can do this.\%> [Y]es I can/[N]o I can't: ",opt:{yes:null, no:null}}
+  There's no food in your fridge and you'd judge yourself harshly for another night of delivery. Go outside.%\
+  > Turn the doorknob? [y,n]: ",opt:{yes:12,no:11}},
+  11:{msg:"You continue to agonize about turning the fucking doorknob.%\
+  > Turn it? [y,n]: ",opt:{yes:12,no:11}},
+  12:{msg:"%...%...%...%...%Finally, you've made it outside, and the {{AIRQ}}.%\
+  There's a good pub within a very short walking distance, and you figure the noise and commotion will be comforting.\
+  They won't necessarily be talking to you, and you won't have to say much to them. A symbiosis wherein the sounds made by people\
+  will serve as a kind of solace. Or, maybe, you'll have a panic attack and not know what to say to the bartender and everything will come crashing down—% % %\
+  You just need to focus on getting there without interacting with pedestrians.%...%Shit, shit, shit. You forgot your phone and you're already outside. You can't go back now.%\
+  Try not to rely on it so much. You have an additiction, clearly. Stop it. Breathe. Focus on getting where you want to go.%\
+  > One foot at a time. [...]",opt:{cont:13}},
+  13:{msg:"Yes, just like that. Breathe normally. Keep your heart rate down.% > Relax. [...]",opt:{cont:14}},
+  14:{msg:"You move cautiously but confidently down the block, crossing an empty intersection, taking care to look both ways. Cars almost never come through here; it's just a good habit.%\
+  You're moving quickly when a sudden feeling of terror snaps at you. You are unsafe. You are not alone.%> This is terrifying. [...]",opt:{cont:15}},
+  15:{msg:"You can feel your pulse in your eyes and temples, and hear it in your ears. Deep breaths.%\
+  You're just going to get some food and a drink. You can do this.\%> [Y]es I can/[N]o I can't: ",opt:{yes:16, no:17}},
+  16:{msg:"That's it, easy does it. Just keep strolling. Enjoy yourself. There's nobody around to judge you. You're just about halfway there already.%\
+  > Keep going [...] ",opt:{cont:18}},
+  17:{msg:"Don't give up now, you're halfway there already. You don't want to go back. Breathe normally. Keep your heart rate down.% > Relax. [...]",opt:{cont:18}},
+  18:{msg:"You've arrived at the pub. A few people are smoking outside and totally ignore you. This is ideal.%\
+  Still, you can't bring yourself to open the door.%What if people judge me as soon as I walk in?%I don't look right for this.%What if I do something wrong?%\
+  Your mind reels as you burn holes in your reflection in the tinted glass of the front door.%\
+  > Open the door? [y,n]: ",opt:{yes:23,no:19}},
+  19:{msg:"You hesistate and your mind spirals out of control. Please, just try to open the door. You're already here. What a waste of time this is. What a waste of life you are. Just do it already. You can't do this one simple task? What's wrong with you?%\
+  > Prove the voice wrong and open the door? [y,n]: ",opt:{yes:23,no:20}},
+  20:{msg:"Please, just try to open the door. I didn't mean what I said. You're not a waste. Look, you're already here. Just go in.%\
+  > Listen into the voice and open the door? [y,n]: ",opt:{yes:23, no:21}},
+  21:{msg:"Just one try, please? Please do this, please, please, please. You're better than this.%\
+  > Are you better than this? [y,n]: ",opt:{yes:23,no:22}},
+  22:{msg:"You turn from the door and walk away. One of the smokers looks at you and is clearly quite concerned about your well-being while their friends talk, but they slowly turn away, saying nothing.%Looks like you're getting food delivered tonight after all.%...%...%{PROCESS COMPLETED}"},
+  23:{msg:"You open the door and walk in without any sort of hassle. There is a comforting, quiet mix of conversations betweens friends, coworkers and family.\
+  People are pleased with one-another, pleased with their food, pleased with their drinks, pleased with themselves.%\
+  You smile as the bartender welcomes you and beckons you to sit down. Time to eat.%...%...%{PROCESS COMPLETED}"}
 };
 
 // Window titles that correspond to the above sentences
@@ -64,12 +89,23 @@ var titles = {
   4:"...done",
   5:"you.assess(hygiene)",
   6:"you.clean(this)",
-  7:"sleep(interval)",
+  7:"break;",
   8:"sleep(interval)",
   9:"sleep(interval)",
-  10:"eject()",
-  11:"relax()",
-  12:"relaxed = undefined"
+  10:"sleep(interval)",
+  11:"sleep(interval)",
+  12:"this.eject()",
+  13:"this.relaxed = undefined",
+  14:"try { this.relax(); }",
+  15:"try { this.relax(); }",
+  16:"try { this.relax(); }",
+  17:"try { this.relax(); }",
+  18:"echo 'you have arrived'",
+  19:"CORE DUMP",
+  20:"stack trace <...>",
+  21:"if(this.better)",
+  22:"abort()",
+  23:"you.feeling = 'safe'"
 }
 
 // TODO: think about sound?
@@ -79,10 +115,6 @@ function setup() {
   createCanvas(window.innerWidth*2, window.innerHeight*2);
 
   content = document.getElementById("content");
-  // fethData has a callback function that starts writing new sentences.
-  //fetchData("weather");
-  // Function call below handled by weather function to avoid race condition
-  //newSentence(sentences[0], titles[0]);
 }
 
 // Draw scanlines. Induce headaches.
@@ -95,15 +127,6 @@ function draw() {
       stroke(0);
       line(0,i+frameCount%3,width,i+frameCount%3);
     }
-}
-
-// Randomly generate a view across from your apartment.
-function randomView(){
-  switch(Math.floor(Math.random() * 3)){
-    case 0: return "the dark bricks of the building across from you; they are stained from decades of precipitation. Old bricks get stained. Youthful energy does not deserve to be wasted"; break;
-    case 1: return "the crumbling façades of the intricate stonework on the apartment building across from yours. The building's bones stand, yet the intricacies crumble. You don't want to crumble"; break;
-    case 2: return "your reflection off of the window directly across from yours. Even from this great distance, you see darkness in your eyes. It would be a shame to let the the faint glimmer within them be quenched completely by negligence"; break;
-  }
 }
 
 // Fetch dynamic content! Get JSON data for weather, drinks, food, etc.
@@ -166,6 +189,9 @@ function newSentence(line, title){
         case "TIME":
           newStr = new Date().toLocaleTimeString();
         break;
+        case "ROOM":
+          newStr = getRoom();
+        break;
         case "WEAT":
           newStr = weather.conditions+" and "+weather.temp;
         break;
@@ -191,9 +217,30 @@ function newSentence(line, title){
           clearInterval(add);
           currentSentence = sentence;
       }
-    },50);
+    },30);
 }
 
+// Randomly generate a view across from your apartment.
+function randomView(){
+  switch(Math.floor(Math.random() * 3)){
+    case 0: return "the dark bricks of the building across from you; they are stained from decades of precipitation. Old bricks get stained. Youthful energy does not deserve to be wasted"; break;
+    case 1: return "the crumbling façades of the intricate stonework on the apartment building across from yours. The building's bones stand, yet the intricacies crumble. You don't want to crumble"; break;
+    case 2: return "your reflection off of the window directly across from yours. Even from this great distance, you see darkness in your eyes. It would be a shame to let the the faint glimmer within them be quenched completely by negligence"; break;
+  }
+}
+
+// Get what makes your room horrible.
+function getRoom(){
+  switch(Math.floor(Math.random() * 5)){
+    case 0: return "stuffy, musty smell of the old clothes and unwashed linen that has gradually accumulated in the corners of your room and on your bed"; break;
+    case 1: return "stuffy, musty smell of the old clothes and unwashed linen that has gradually accumulated in the corners of your room and on your bed"; break;
+    case 2: return "blank white walls and deeply stained, ancient hardwood floors you walk on. You have memorized the floor's patterns, seen rainbow static coalesce into shapes on the walls. Thinking about this freaks you out"; break;
+    case 3: return "obviously false but still compelling notion that your room is a quarantine and not you but your anxiety lives here, undisturbed, free to linger and fester when you refuse to leave for days on end"; break;
+    case 4: return "constant reminders of bills and upkeep and self-care and every other responsibility that you shirk when you stay inside for multiple days on end. Getting outside helps remind you that everyone has these issues as well, and that your daily struggles are valid"; break;
+  }
+}
+
+// How comfortable is it outside?
 function weatherComfort(weather){
   if(weather.temp < 18)
     return " and you put on a your heaviest winter coat.% Hopefully you won't freeze to death. The cold is bone-chilling";
@@ -215,6 +262,7 @@ function weatherComfort(weather){
     return ". The heat is ungodly outside.% You hope you're prepared and well-hydrated not to just pass out on the spot";
 }
 
+// How does it feel to be outside?
 function airQuality(weather){
   if(weather.temp < 18)
     return " brutal cold stings, but it'll be worth it once you warm up";
