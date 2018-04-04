@@ -1,4 +1,4 @@
-var textCursor, currentSentence, content, input = false, choice = 0, weather, temp;
+var textCursor, currentSentence, content, input = false, choice = 0, weather = {}, title = true;
 
 // Huge custom object. Has a message and a set of options corresponding to
 //  other messages within the dataset. Sometimes includes function calls, booo.
@@ -66,7 +66,7 @@ function setup() {
 
   content = document.getElementById("content");
   // fethData has a callback function that starts writing new sentences.
-  fetchData("weather");
+  //fetchData("weather");
   // Function call below handled by weather function to avoid race condition
   //newSentence(sentences[0], titles[0]);
 }
@@ -116,8 +116,10 @@ function fetchData(type){
 // Set the weather using global vars.
 // Callback function for loadJSON that gets weather.
 function setWeather(data){
-  weather = data.weather[0].description;
-  temp = Math.round((((9/5)*(data.main.temp-273.15))+32));
+  weather.conditions = data.weather[0].description;
+  weather.temp = Math.round((((9/5)*(data.main.temp-273.15))+32));
+  weather.sunrise = data.sys.sunrise;
+  weather.sunset = data.sys.sunset;
   newSentence(sentences[0], titles[0]);
 }
 
@@ -144,18 +146,17 @@ function newSentence(line, title){
     // Handlebars-style variable substitution. Dirty, should use regex but
     //  time is kind of at a premium for this thing. Next iteration for sure.
     if(line.msg[i]=='{' && line.msg[i+1]=='{'){
+      var newStr;
       switch(line.msg.substring(i+2,i+6)){
         case "TIME":
           alert(new Date());
         break;
         case "WEAT":
           // TODO: loop though letter by letter
-          sentence.append(weather+" and "+temp);
+          newStr = weather.conditions+" and "+weather.temp;
+          line.msg = line.msg.replace("{{WEAT}}",newStr);
         break;
       }
-
-      // Important, skips handlebar variable
-      i+=8;
     }
 
     // Console-style input delimiter. Switches to input mode.
@@ -169,12 +170,17 @@ function newSentence(line, title){
           clearInterval(add);
           currentSentence = sentence;
       }
-    },20);
+    },50);
 }
 
 // Listen to user input for specific options, like yes and no and continue.
 document.addEventListener("keyup",function(e){
-  if(input){
+  if(title){
+    title = false;
+    input = false;
+    fetchData("weather");
+  }
+  else if(input){
     // Continue flag is not null. Advance with any input.
     if(sentences[choice].opt.cont != null){
       input = false;

@@ -4,11 +4,15 @@ html, body {padding: 0; margin: 0; overflow: hidden; background-color:#000;}
 /* text styles */
 p { margin-top:5px; margin-bottom: 25px;}
 .cursor { width:0.2em; height:1em; display:inline-block;}
-.word, .cursor {
+.word, .cursor, .title {
     color: #9f5;
     transition: color 1.25s;
     text-shadow: #ccffcc 0px 0px 15px;
     font: 2.5em 'VT323', monospace;
+}
+
+.title::after {
+  content: " [Press any key to begin]"
 }
 
 .word:hover {
