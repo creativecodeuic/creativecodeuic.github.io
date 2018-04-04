@@ -51,8 +51,8 @@ function preload() {
 
 function setup() {
   createCanvas(2000, 1300);
-  img = loadImage("Spills.jpg");              // setup background image
-  presImg = loadImage("Prescription.jpg");
+  img = loadImage("data/Spills.jpg");              // setup background image
+  presImg = loadImage("data/Prescription.jpg");
   image(img, 0, 0, img.width, img.height);
   //button = createButton('click me');
   //button.position(19, 19);
