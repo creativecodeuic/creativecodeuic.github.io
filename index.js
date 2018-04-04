@@ -23,7 +23,7 @@ function draw() {
     return;
   for (var i = 0; i < fileNames.length; i++) {
     var name = fileNames[i].substring(0, fileNames[i].length-5);
-    createElement('p','<a href='+name+'>'+name+'</a>');
+    createElement('p','<a href='+name+'>'+name+'.html</a>');
   }
   noLoop();
 }
