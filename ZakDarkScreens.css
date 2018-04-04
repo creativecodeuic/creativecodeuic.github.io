@@ -11,6 +11,14 @@ p { margin-top:5px; margin-bottom: 25px;}
     font: 2.5em 'VT323', monospace;
 }
 
+.speech {
+  color: #af8;
+}
+
+.title {
+  margin-top:5%;
+}
+
 .title::after {
   content: " [Press any key to begin]"
 }
