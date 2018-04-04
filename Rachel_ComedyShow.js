@@ -84,11 +84,11 @@ function draw() {
     background('green');  //  indicator that the correct passkey was entered
     fill(255);            //  white font color
     //  **BONUS CODE: keep the question after finding the correct passkey, though it may cut some text (CHANGE = IN "ANSWER HEADER" TO +=)**
-      jokeStory = "QUESTION:\n";  //  question header
-      jokeStory += jokeQ;         //  joke question
-      jokeStory += "\n\n";        //  2 new lines
+      //  jokeStory = "QUESTION:\n";  //  question header
+      //  jokeStory += jokeQ;         //  joke question
+      //  jokeStory += "\n\n";        //  2 new lines
     //  **END OF BONUS CODE**
-    jokeStory += "ANSWER:\n";  //  answer header (change = to += for keeping question)
+    jokeStory = "ANSWER:\n";  //  answer header (change = to += for keeping question)
     jokeStory += jokeA;       //  joke answer/punchline
     jokeStory += "\n\n(Ba-dum TSHHH!!!)";  //  that iconic drum rimshot after a funny joke
     jokeStory += "\n(Thank you!)";         //  thank the "audience" like any good comedian should
