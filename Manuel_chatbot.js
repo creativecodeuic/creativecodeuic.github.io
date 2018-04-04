@@ -33,7 +33,7 @@ var sentence;
 
 var img;
 var weather;
-var boturl = "http://www.cleverbot.com/getreply?key=CC8i8FbzMyKcn4HbIgNB8FlYfAQ&input="; //"https://www.cleverbot.com/getreply?key=CC8i8FbzMyKcn4HbIgNB8FlYfAQ";
+var boturl = "https://www.cleverbot.com/getreply?key=CC8i8FbzMyKcn4HbIgNB8FlYfAQ&input="; //"https://www.cleverbot.com/getreply?key=CC8i8FbzMyKcn4HbIgNB8FlYfAQ";
 var cs;
 var cs2;
 
@@ -47,7 +47,7 @@ function preload() {
 
     //var url = "http://api.wordnik.com:80/v4/word.json/glasses/examples?includeDuplicates=false&useCanonical=false&skip=0&limit=5&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
 
-    var sentenceurl = "http://api.wordnik.com:80/v4/word.json/";
+    var sentenceurl = "https://api.wordnik.com:80/v4/word.json/";
     var sentenceurl2 = "/examples?includeDuplicates=false&useCanonical=false&skip=0&limit=5&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
     
 
@@ -237,7 +237,7 @@ function getAttributes(url) {
             sentence = concept[ranNum].name;
              text("word chosen from picture:",800, 20);
              text(sentence,800, 40);
-            loadJSON(" http://api.wordnik.com:80/v4/word.json/" + concept[ranNum].name + "/topExample?useCanonical=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5", displayData, notFound);
+            loadJSON(" https://api.wordnik.com:80/v4/word.json/" + concept[ranNum].name + "/topExample?useCanonical=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5", displayData, notFound);
 
             console.log(concept[ranNum].name);
            
