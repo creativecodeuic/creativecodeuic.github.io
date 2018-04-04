@@ -3,11 +3,12 @@ var textCursor, currentSentence, content, input = false, choice = 0, weather = {
 // Huge custom object. Has a message and a set of options corresponding to
 //  other messages within the dataset. Sometimes includes function calls, booo.
 var sentences = {
-  0:{msg:"It's "+(new Date().toLocaleTimeString())+". You haven't been outside in almost two days.%\
+  0:{msg:"It's {{TIME}}. You haven't been outside in almost two days.%\
   You glance at your weather report: {{WEAT}}ºF.%\
-  The suddenly long hours of daylight are somewhat startling, and the gray skies remind you of smooth ambient occlusion: soft shadows, soft specular highlights.\
-  Maybe it's time to get out a bit.%> Leave your apartment? [y,n]: ",/*TODO: conditional description */ opt:{yes:1, no:2}},
-  1:{msg:"You take a long look outside your window, gazing at the "+randomView()+".%\
+  Pretty much anything beats the stuffy, musty smell of the old clothes and unwashed linen that has gradually accumulated in the corners of your room and on your bed.%\
+  You might lose your mind if you don't get some fresh air.\
+  Maybe it's time to get out for a bit.%> Leave your apartment? [y,n]: ",/*TODO: conditional description */ opt:{yes:1, no:2}},
+  1:{msg:"You take a long look outside your window, gazing at "+randomView()+".%\
   You rise up from the supple synthetic leather of your comfortable chair and stretch, feeling the bubbles of fluid in the soft cartilage of your body snap and pop. You've been sitting for too long.%\
   > Time to go. [...]",opt:{yes:null, no:null, cont:5}},
   2:{msg:"You decide that the phosphorescent glow of your screen is the only company you'll need, relegating yourself to the comfort of your expensive chair.%\
@@ -32,19 +33,26 @@ var sentences = {
   5:{msg:"You put on pants, sniff under your arms to see what you're working with. \
   You consider reapplying a little extra deodorant.%\
   It's gotten pretty bad but you're not really trying to impress anyone.%...%\
-  > Okay, maybe really you should shower. [...]",opt:{yes:null,no:null,cont:6}},
+  > Okay, maybe you really should shower. [...]",opt:{yes:null,no:null,cont:6}},
   6:{msg:"It takes you a little longer than normal and you feel guilty about wasting water but hey, you're worth it.%\
   It's nice to be clean and presentable and ready for the public eye.%\
-  You've got your keys, wallet and phone. Time for a bite and maybe a drink or two.%\
+  You've got your keys, wallet and phone{{COAT}}. Time for a bite and maybe a drink or two.%\
   > You're at the front door, ready to leave your apartment. [...]: ", opt:{cont:7}},
   7:{msg:"> You hesitate as your hand grips the doorknob. Turn it? [y,n]: ",opt:{yes:10,no:8}},
   8:{msg:"You continue to hesitate as your hand grips the doorknob, totally frozen.%\
-  Somewhere in your mind, a tiny voice shrieks out, agonizing over the thought of being in public. You don't want this. But you probably need it.%\
+  Somewhere in your mind, a tiny voice shrieks out, agonizing over the thought of being in public. You don't want this. But, you probably need it.%\
   There's no food in your fridge and you'd judge yourself harshly for takeout. Go outside.%\
-  > Turn it? [y,n]: ",opt:{yes:10,no:9}},
+  > Turn the doorknob? [y,n]: ",opt:{yes:10,no:9}},
   9:{msg:"You continue to agonize about turning the fucking doorknob.%\
   > Turn it? [y,n]: ",opt:{yes:10,no:9}},                             // TODO: make dependent on weather
-  10:{msg:"%...%...%...%...%Finally, you've made it outside, and the crisp fresh air is encouraging and refreshing.",opt:{}}
+  10:{msg:"%...%...%...%...%Finally, you've made it outside, and the {{AIRQ}}.%\
+  There's a good pub within walking distance, and you figure the noise and commotion will be comforting.\
+  They're won't necessarily be talking to you, and you won't have to say much to them. A symbiosis wherein the sounds made by people\
+  will serve as a kind of solace. Or, maybe, you'll have a panic attack and not know what to say to the bartender and everything will come crashing down—%%%\
+  You just need to focus on getting there without interacting with pedestrians.%\
+  > One foot at a time. [...]",opt:{cont:true}},
+  11:{msg:"Yes, just like that. Breathe normally. Keep your heart rate down.% > Relax. [...]",opt:{cont:true}},
+  12:{msg:"You can do this.\%> [Y]es I can/[N]o I can't: ",opt:{yes:null, no:null}}
 };
 
 // Window titles that correspond to the above sentences
@@ -55,7 +63,13 @@ var titles = {
   3:"while(1)...",
   4:"...done",
   5:"you.assess(hygiene)",
-  6:"you.clean(this)"
+  6:"you.clean(this)",
+  7:"sleep(interval)",
+  8:"sleep(interval)",
+  9:"sleep(interval)",
+  10:"eject()",
+  11:"relax()",
+  12:"relaxed = undefined"
 }
 
 // TODO: think about sound?
@@ -86,8 +100,8 @@ function draw() {
 // Randomly generate a view across from your apartment.
 function randomView(){
   switch(Math.floor(Math.random() * 3)){
-    case 0: return "dark bricks of the building across from your window; they are stained from decades of precipitation. Old bricks get stained. Youthful energy does not deserve to be wasted"; break;
-    case 1: return "crumbling facades of the intricate stonework on the apartment building across from yours. The building's bones stand, yet the intricacies crumble. You don't want to crumble"; break;
+    case 0: return "the dark bricks of the building across from you; they are stained from decades of precipitation. Old bricks get stained. Youthful energy does not deserve to be wasted"; break;
+    case 1: return "the crumbling façades of the intricate stonework on the apartment building across from yours. The building's bones stand, yet the intricacies crumble. You don't want to crumble"; break;
     case 2: return "your reflection off of the window directly across from yours. Even from this great distance, you see darkness in your eyes. It would be a shame to let the the faint glimmer within them be quenched completely by negligence"; break;
   }
 }
@@ -147,16 +161,23 @@ function newSentence(line, title){
     //  time is kind of at a premium for this thing. Next iteration for sure.
     if(line.msg[i]=='{' && line.msg[i+1]=='{'){
       var newStr;
-      switch(line.msg.substring(i+2,i+6)){
+      var substrVar = line.msg.substring(i+2,i+6);
+      switch(substrVar){
         case "TIME":
-          alert(new Date());
+          newStr = new Date().toLocaleTimeString();
         break;
         case "WEAT":
-          // TODO: loop though letter by letter
           newStr = weather.conditions+" and "+weather.temp;
-          line.msg = line.msg.replace("{{WEAT}}",newStr);
+        break;
+        case "COAT":
+          newStr = weatherComfort(weather);
+        break;
+        case "AIRQ":
+          newStr = airQuality(weather);
         break;
       }
+
+      line.msg = line.msg.replace("{{"+substrVar+"}}",newStr);
     }
 
     // Console-style input delimiter. Switches to input mode.
@@ -171,6 +192,48 @@ function newSentence(line, title){
           currentSentence = sentence;
       }
     },50);
+}
+
+function weatherComfort(weather){
+  if(weather.temp < 18)
+    return " and you put on a your heaviest winter coat.% Hopefully you won't freeze to death. The cold is bone-chilling";
+  else if(weather.temp < 28)
+    return " and you put on a heavy winter coat.% The icy chill will do good to cool off your nerves. Something dumb but encouraging, just like that";
+  else if(weather.temp <= 45)
+    return " and you throw on a light winter coat.% You figure it'll be warm someday. Just, well, not today. Maybe not ever again. Maybe this is the new normal. You shake your head. This is not a good train of thought";
+  else if(weather.temp > 45)
+    return " and toss on a light jacket.% It's going to be crisp and refreshing out there, just like the apples in your fridge before they get weird and soft from neglect";
+  else if(weather.temp > 56)
+    return " and toss on a light sweater.% That's right, it's sweater weather baby! You crack a smile and then it quickly fades when you realize what a dumb thing that is to get excited about";
+  else if(weather.temp > 68)
+    return ", prepared to walk outside in just a long sleeve shirt, feeling like you'll roll up the cuffs if you get too warm.% This is optimal weather. You will thrive in this";
+  else if(weather.temp > 75)
+    return ", prepared to walk outside in just a tee shirt.% This is optimal weather. You will thrive in this";
+  else if(weather.temp > 85)
+    return ". It's pretty hot out there.% You're dressed as cool as possible but you'll probably sweat a bunch";
+  else if(weather.temp > 95)
+    return ". The heat is ungodly outside.% You hope you're prepared and well-hydrated not to just pass out on the spot";
+}
+
+function airQuality(weather){
+  if(weather.temp < 18)
+    return " brutal cold stings, but it'll be worth it once you warm up";
+  else if(weather.temp < 28)
+    return " freezing air somehow feels bright and invigorating.";
+  else if(weather.temp <= 45)
+    return " slight chill in the air isn't as terrible as you expected it to be";
+  else if(weather.temp > 45)
+    return " crisp, fresh air is a little chilly but still pretty okay.";
+  else if(weather.temp > 56)
+    return " crisp, fresh air is encouraging and refreshing";
+  else if(weather.temp > 68)
+    return " air is the perfect temperature. It is sublime.";
+  else if(weather.temp > 75)
+    return " warm air is comfortable and optimism-inspiring";
+  else if(weather.temp > 85)
+    return " hot air is a little brutal, but it's not as bad as being inside";
+  else if(weather.temp > 95)
+    return " sweltering heat is fucking horrible, but it will be worth it once you get where you're going";
 }
 
 // Listen to user input for specific options, like yes and no and continue.
