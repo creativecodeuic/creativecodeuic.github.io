@@ -32,7 +32,7 @@ function preload() {
 
 function setup() {
   createCanvas(800, 1000);
-  img = loadImage("assets/stars.png"); // Load the image
+  img = loadImage("Kyradata/stars.png"); // Load the image
   //sets the color
   r = 244;
   g = 220;
