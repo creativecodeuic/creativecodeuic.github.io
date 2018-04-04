@@ -7,7 +7,7 @@ var sentences = {
   You glance at your weather report: {{WEAT}}ºF.%\
   Pretty much anything beats the {{ROOM}}.%\
   You might lose your mind if you don't get some fresh air.\
-  Maybe it's time to get out for a bit.%> Leave your apartment? [y,n]: ",/*TODO: conditional description */ opt:{yes:1, no:2}},
+  Maybe it's time to get out for a bit.%> Leave your apartment? [y,n]: ", opt:{yes:1, no:2}},
   1:{msg:"You take a long look outside your window, gazing at "+randomView()+".%\
   You rise up from the supple synthetic leather of your comfortable chair and stretch, feeling the bubbles of fluid in the soft cartilage of your body snap and pop. You've been sitting for too long.%\
   > Time to go. [...]",opt:{yes:null, no:null, cont:5}},
