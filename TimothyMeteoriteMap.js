@@ -121,8 +121,8 @@ function getDOB() {
  p3.html(mass, true);
 }
 function getHoro(){
- //loadJSON(apiMeteor + '?year=' + dob.value() + 'T00:00:00.000');
- getDOB;
+ loadJSON(apiMeteor + '?year=' + dob.value() + 'T00:00:00.000',getDOB);
+ //getDOB;
  //setTimeout(getDOB, 3000);
 }
 
@@ -136,7 +136,7 @@ function setup() {
   var button = select('#submit');
   dob = select('#dob');
   
-  button.mousePressed(getHoro);
+  button.mousePressed(getDOB);
 }
 
 function draw() {
