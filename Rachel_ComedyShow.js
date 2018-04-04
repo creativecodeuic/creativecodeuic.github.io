@@ -25,9 +25,9 @@ var guessNum = 0;     //  holds number of user guesses for passkey
 
 //  (pre)load everything before doing anything
 function preload() {
-  mic = loadImage('mic.png');        //  load mic image
-  floor = loadImage('floor.png');    //  load floor image
-  lights = loadImage('lights.png');  //  load light image
+  mic = loadImage('http://www.clipartbest.com/cliparts/RiG/6KM/RiG6KMzBT.png');        //  load mic image
+  floor = loadImage('https://cdn.pixabay.com/photo/2013/07/13/10/15/plank-156860_960_720.png');    //  load floor image
+  lights = loadImage('http://www.man-d-tec.com/wp-content/themes/appply/images/design-studio/brightness/light.png');  //  load light image
   var url = "https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke";
   httpGet(url, 'json', false, function(response) {  //  randomly generate joke
     jokeQ = response.setup;          //  get the joke question
