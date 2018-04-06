@@ -1,3 +1,9 @@
+/* Thoughts:
+ *  - 4th wall breakage? draw something on canvas. disrupt text flow
+ *  - stylized text
+ *  - Bars in the area, menus
+ */
+
 var textCursor, currentSentence, content, input = false, choice = 0, weather = {}, title = true;
 
 // Huge custom object. Has a message and a set of options corresponding to
@@ -25,7 +31,7 @@ var sentences = {
   No contact.%\
   No calls.%\
   No interpersonal communication.%\
-  You friends logged off hours ago, and yet, here you are.%\
+  Your friends logged off hours ago, and yet, here you are.%\
   You sarcastically congratulate yourself for burning a second day without \
   leaving the confines of your room. Only the blackness of dreamless sleep awaits.%\
   > exit [...]",opt:{yes:null,no:null,cont:4}},
@@ -54,7 +60,7 @@ var sentences = {
   They won't necessarily be talking to you, and you won't have to say much to them. A symbiosis wherein the sounds made by people\
   will serve as a kind of solace. Or, maybe, you'll have a panic attack and not know what to say to the bartender and everything will come crashing down—% % %\
   You just need to focus on getting there without interacting with pedestrians.%...%Shit, shit, shit. You forgot your phone and you're already outside. You can't go back now.%\
-  Try not to rely on it so much. You have an additiction, clearly. Stop it. Breathe. Focus on getting where you want to go.%\
+  Try not to rely on it so much. You have an addiction, clearly. Stop it. Breathe. Focus on getting where you want to go.%\
   > One foot at a time. [...]",opt:{cont:13}},
   13:{msg:"Yes, just like that. Breathe normally. Keep your heart rate down.% > Relax. [...]",opt:{cont:14}},
   14:{msg:"You move cautiously but confidently down the block, crossing an empty intersection, taking care to look both ways. Cars almost never come through here; it's just a good habit.%\
